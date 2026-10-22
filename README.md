@@ -82,3 +82,21 @@ $env:UI_PORT = "5180"
 $env:API_PORT = "3011"
 .\start.ps1
 ```
+
+## Dev Containers
+
+Open this repository in VS Code and choose **Reopen in Container**. The
+Dev Container installs the pinned Rust toolchain and locked npm dependencies,
+then starts the hot-reloading stack. Port `5173` is forwarded automatically.
+
+## Coder
+
+Coder 2.24+ can discover `.devcontainer/devcontainer.json` automatically; this
+repository does not need its own Terraform template. Open the repository in a
+Coder workspace whose template provides Docker access and the Dev Containers
+CLI, then start the detected container from the workspace dashboard. The
+Dev Container forwards the UI on port `5173`.
+
+Coder's server still uses Terraform internally to provision workspaces, but
+that configuration belongs to the Coder installation/template, not this
+repository.

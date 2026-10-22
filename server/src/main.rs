@@ -1,5 +1,5 @@
 use secrets_scanner_api::{ApiDoc, routes};
-use std::net::SocketAddr;
+use std::net::{IpAddr, SocketAddr};
 use utoipa::OpenApi;
 use utoipa_swagger_ui::SwaggerUi;
 
@@ -12,7 +12,12 @@ async fn main() {
         .ok()
         .and_then(|value| value.parse().ok())
         .unwrap_or(3001);
-    let address = SocketAddr::from(([127, 0, 0, 1], port));
+    let host = std::env::var("API_HOST").unwrap_or_else(|_| "127.0.0.1".to_owned());
+    let address = SocketAddr::new(
+        host.parse::<IpAddr>()
+            .expect("API_HOST must be a valid IP address"),
+        port,
+    );
     let listener = tokio::net::TcpListener::bind(address)
         .await
         .expect("failed to bind API listener");
